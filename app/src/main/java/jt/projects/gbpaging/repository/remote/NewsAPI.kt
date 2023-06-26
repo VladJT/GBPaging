@@ -1,4 +1,4 @@
-package jt.projects.gbpaging.repository
+package jt.projects.gbpaging.repository.remote
 
 import jt.projects.gbpaging.model.News
 import jt.projects.gbpaging.repository.dto.NewsDTO

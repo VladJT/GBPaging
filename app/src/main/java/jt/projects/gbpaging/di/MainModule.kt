@@ -5,7 +5,7 @@ import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import jt.projects.gbpaging.intercators.NewsInteractor
 import jt.projects.gbpaging.repository.INewsRepo
-import jt.projects.gbpaging.repository.NewsRemoteDataSource
+import jt.projects.gbpaging.repository.remote.NewsRemoteDataSource
 import jt.projects.gbpaging.ui.MainActivity
 import javax.inject.Singleton
 

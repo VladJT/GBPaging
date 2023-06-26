@@ -1,4 +1,4 @@
-package jt.projects.gbpaging.repository
+package jt.projects.gbpaging.repository.remote
 
 import okhttp3.Interceptor
 import java.io.IOException
