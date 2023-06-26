@@ -1,28 +1,24 @@
 package jt.projects.gbpaging.di
 
 import dagger.Module
+import dagger.Provides
 import dagger.android.ContributesAndroidInjector
+import jt.projects.gbpaging.intercators.NewsInteractor
+import jt.projects.gbpaging.repository.INewsRepo
+import jt.projects.gbpaging.repository.NewsRemoteDataSource
 import jt.projects.gbpaging.ui.MainActivity
+import javax.inject.Singleton
 
 
 @Module
 class MainModule {
+    @Provides
+    @Singleton
+    fun newsRepo(): INewsRepo = NewsRemoteDataSource()
 
-//    @Provides
-//    @Singleton
-//    fun lessonRepo(): ILessonsRepo = LessonsFakeRepo()
-//
-//    @Provides
-//    @Singleton
-//    fun homeworkRepo(): IHomeworkRepo = HomeworkFakeRepo()
-//
-//    @Provides
-//    @Singleton
-//    fun lessonInteractor(repo: ILessonsRepo): LessonInteractor = LessonInteractor(repo)
-//
-//    @Provides
-//    @Singleton
-//    fun homeworkInteractor(repo: IHomeworkRepo): HomeworkInteractor = HomeworkInteractor(repo)
+    @Provides
+    @Singleton
+    fun newsInteractor(repo: INewsRepo): NewsInteractor = NewsInteractor(repo)
 }
 
 /**
@@ -35,5 +31,4 @@ onCreate
 abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun contributeMainActivity(): MainActivity
-
 }

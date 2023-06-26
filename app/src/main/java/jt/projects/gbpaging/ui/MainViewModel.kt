@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jt.projects.gbpaging.intercators.NewsInteractor
 import jt.projects.gbpaging.model.News
-import jt.projects.gbpaging.repository.NewsRemoteDataSource
 import jt.projects.gbpaging.utils.LOG_TAG
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -14,10 +13,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor(private val interactor: NewsInteractor) : ViewModel() {
 
-    private val interactor: NewsInteractor = NewsInteractor(NewsRemoteDataSource())
     private var job: Job? = null
 
     private val _resultRecycler = MutableStateFlow<List<News>>(listOf())

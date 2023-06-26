@@ -7,13 +7,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.android.AndroidInjection
 import jt.projects.gbpaging.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
 
-    private val viewModel by lazy { MainViewModel() }
+    @Inject
+    lateinit var viewModel : MainViewModel
 
     private val mainAdapter by lazy { MainAdapter() }
 
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AndroidInjection.inject(this)
         initUi()
         observeViewModelData()
         observeLoadingVisible()
