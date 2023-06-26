@@ -30,7 +30,6 @@ class MainViewModel @Inject constructor(private val interactor: NewsInteractor) 
     }
 
     private fun loadData() {
-        job?.cancel()
         _isLoading.tryEmit(true)
 
         launchOrError(
@@ -51,7 +50,8 @@ class MainViewModel @Inject constructor(private val interactor: NewsInteractor) 
         action: suspend () -> Unit,
         error: (Exception) -> Unit
     ) {
-        viewModelScope.launch(dispatcher) {
+        job?.cancel()
+        job = viewModelScope.launch(dispatcher) {
             try {
                 action.invoke()
             } catch (e: CancellationException) {
