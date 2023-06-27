@@ -11,7 +11,10 @@ interface NewsDao {
      * SELECT
      */
     @Query("select * from NewsEntity")
-    fun getAllNews(): List<NewsEntity>
+    suspend fun getAllNews(): List<NewsEntity>
+
+    @Query("select * from NewsEntity ORDER BY id LIMIT :limit OFFSET :offset")
+    suspend fun getNews(limit: Int, offset: Int): List<NewsEntity>
 
 
     /**

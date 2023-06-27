@@ -9,15 +9,20 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import jt.projects.gbpaging.databinding.ActivityMainBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var viewModel : MainViewModel
+    lateinit var viewModel: MainViewModel
 
-    private val mainAdapter by lazy { MainAdapter() }
+
+    private val tryAgainAction: TryAgainAction = { mainAdapter.retry() }
+    private val mainAdapter by lazy { MainPagingAdapter() }
+    private val footerAdapter by lazy { DefaultLoadStateAdapter(tryAgainAction) }
 
     private lateinit var binding: ActivityMainBinding
 
@@ -28,24 +33,41 @@ class MainActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         initUi()
         observeViewModelData()
-        observeLoadingVisible()
+        observeLoadState()
+    //    observeLoadingVisible()
+    }
+
+    private fun observeLoadState() {
+        lifecycleScope.launch {
+            mainAdapter.loadStateFlow.debounce(200).collectLatest {
+             //   mainLoadStateHolder
+            }
+        }
     }
 
     private fun initUi() {
+
+        val adapterWithLoadState = mainAdapter.withLoadStateFooter(footerAdapter)
+
         with(binding.rvNews) {
             layoutManager = LinearLayoutManager(context)
-            adapter = mainAdapter
+            adapter = adapterWithLoadState
         }
     }
 
     private fun observeViewModelData() {
-        this.lifecycleScope.launch {
-            this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel
-                    .resultRecycler
-                    .collect {
-                        mainAdapter.setData(it)
-                    }
+//        this.lifecycleScope.launch {
+//            this@MainActivity.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel
+//                    .resultRecycler
+//                    .collect {
+//                        mainAdapter.setData(it)
+//                    }
+//            }
+//        }
+        lifecycleScope.launch {
+            viewModel.newsFlow.collectLatest {
+                mainAdapter.submitData(it)
             }
         }
     }

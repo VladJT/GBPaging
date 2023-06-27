@@ -19,4 +19,6 @@ class NewsInteractor(
         val news = remoteRepo.getNews()
         localRepo.insertNews(news)
     }
+
+    fun getPagedNews() = localRepo.getPagedNews()
 }
