@@ -14,7 +14,6 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-
     @Inject
     lateinit var viewModel : MainViewModel
 

@@ -34,7 +34,9 @@ class MainViewModel @Inject constructor(private val interactor: NewsInteractor) 
 
         launchOrError(
             action = {
-                val data = interactor.getNews()
+             //   interactor.clearLocalSource()
+             //   interactor.fillLocalDataSourceFromRemote()
+                val data = interactor.getNewsFromLocalSource()
                 _resultRecycler.tryEmit(data)
                 _isLoading.tryEmit(false)
             },
@@ -46,7 +48,7 @@ class MainViewModel @Inject constructor(private val interactor: NewsInteractor) 
     }
 
     private fun launchOrError(
-        dispatcher: CoroutineDispatcher = Dispatchers.Main,
+        dispatcher: CoroutineDispatcher = Dispatchers.IO,
         action: suspend () -> Unit,
         error: (Exception) -> Unit
     ) {

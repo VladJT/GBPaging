@@ -4,7 +4,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import jt.projects.gbpaging.intercators.NewsInteractor
-import jt.projects.gbpaging.repository.INewsRepo
+import jt.projects.gbpaging.repository.local.INewsLocalRepo
+import jt.projects.gbpaging.repository.local.NewsDao
+import jt.projects.gbpaging.repository.local.NewsLocalDataSource
+import jt.projects.gbpaging.repository.remote.INewsRemoteRepo
 import jt.projects.gbpaging.repository.remote.NewsRemoteDataSource
 import jt.projects.gbpaging.ui.MainActivity
 import javax.inject.Singleton
@@ -14,11 +17,16 @@ import javax.inject.Singleton
 class MainModule {
     @Provides
     @Singleton
-    fun newsRepo(): INewsRepo = NewsRemoteDataSource()
+    fun remoteRepo(): INewsRemoteRepo = NewsRemoteDataSource()
 
     @Provides
     @Singleton
-    fun newsInteractor(repo: INewsRepo): NewsInteractor = NewsInteractor(repo)
+    fun localRepo(dao: NewsDao): INewsLocalRepo = NewsLocalDataSource(dao)
+
+    @Provides
+    @Singleton
+    fun newsInteractor(localRepo: INewsLocalRepo, remoteRepo: INewsRemoteRepo): NewsInteractor =
+        NewsInteractor(localRepo, remoteRepo)
 }
 
 /**

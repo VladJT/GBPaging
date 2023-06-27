@@ -4,7 +4,7 @@ import jt.projects.gbpaging.model.News
 import jt.projects.gbpaging.repository.dto.NewsDTO
 import jt.projects.gbpaging.repository.local.NewsEntity
 
-fun NewsDTO.toNewsList(): List<News>{
+fun NewsDTO.toNewsList(): List<News> {
     val news = mutableListOf<News>()
     this.d.children.forEach {
         news.add(News(it.d.title, it.d.score, it.d.num_comments))
@@ -13,5 +13,9 @@ fun NewsDTO.toNewsList(): List<News>{
 }
 
 fun NewsEntity.toNews(): News {
-    return News(this.title, this.stars, this.comments)
+    return News(title = this.title, stars = this.stars, comments = this.comments)
+}
+
+fun News.toNewsEntity(): NewsEntity {
+    return NewsEntity(title = this.title, stars = this.stars, comments = this.comments)
 }

@@ -2,7 +2,6 @@ package jt.projects.gbpaging.repository.remote
 
 
 import jt.projects.gbpaging.model.News
-import jt.projects.gbpaging.repository.INewsRepo
 import jt.projects.gbpaging.repository.mappers.toNewsList
 import jt.projects.gbpaging.utils.BASE_URL
 import okhttp3.Interceptor
@@ -11,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NewsRemoteDataSource : INewsRepo {
+class NewsRemoteDataSource : INewsRemoteRepo {
 
     private inline fun <reified T> getApi(): T =
         Retrofit.Builder().baseUrl(BASE_URL)

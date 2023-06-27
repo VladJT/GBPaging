@@ -1,8 +1,8 @@
-package jt.projects.gbpaging.repository
+package jt.projects.gbpaging.repository.remote
 
 import jt.projects.gbpaging.model.News
 import kotlinx.coroutines.flow.Flow
 
-interface INewsRepo {
+interface INewsRemoteRepo {
     suspend fun getNews(): List<News>
 }
