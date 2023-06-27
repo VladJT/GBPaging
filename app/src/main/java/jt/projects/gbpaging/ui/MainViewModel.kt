@@ -60,7 +60,7 @@ class MainViewModel @Inject constructor(private val interactor: NewsInteractor) 
     }
 
 
-    // загрузка сразу всех данных
+    // загрузка сразу всех данных из удаленного или локального источника
     private fun loadData() {
         _isLoading.tryEmit(true)
 

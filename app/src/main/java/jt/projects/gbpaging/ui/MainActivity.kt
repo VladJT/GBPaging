@@ -38,14 +38,6 @@ class MainActivity : AppCompatActivity() {
         observeLoadingVisible()
     }
 
-    private fun observeLoadState() {
-        lifecycleScope.launch {
-            mainAdapter.loadStateFlow.debounce(200).collectLatest {
-                binding.progressCircular.isVisible = it.append is LoadState.Loading
-            }
-        }
-    }
-
     private fun initUi() {
 
         val adapterWithLoadState = mainAdapter.withLoadStateFooter(footerAdapter)
@@ -69,6 +61,15 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.newsFlow.collectLatest {
                 mainAdapter.submitData(it)
+            }
+        }
+    }
+
+    private fun observeLoadState() {
+        lifecycleScope.launch {
+            mainAdapter.loadStateFlow.debounce(200).collectLatest {
+                //отображаем индикатор, когда подгружаются данные
+                binding.progressCircular.isVisible = it.append is LoadState.Loading
             }
         }
     }
