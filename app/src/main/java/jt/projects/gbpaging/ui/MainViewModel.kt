@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import jt.projects.gbpaging.intercators.NewsInteractor
 import jt.projects.gbpaging.model.News
+import jt.projects.gbpaging.utils.DB_NEWS_MAX_COUNT
 import jt.projects.gbpaging.utils.LOG_TAG
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
@@ -32,22 +33,39 @@ class MainViewModel @Inject constructor(private val interactor: NewsInteractor) 
 
 
     init {
-        _isLoading.tryEmit(false)
-        loadNews()
-        //    loadData()
+        fillLocalCache()
+        loadPagedNews()
     }
 
-    private fun loadNews() {
+    // заполнение локальной базы данных из популярных постов с Reddit
+    private fun fillLocalCache() {
+        _isLoading.tryEmit(true)
+        launchOrError(
+            action = {
+                if (interactor.getNewsFromLocalSource().size < DB_NEWS_MAX_COUNT) {
+                    //   interactor.clearLocalSource()
+                    interactor.fillLocalDataSourceFromRemote()
+                }
+                _isLoading.tryEmit(false)
+            },
+            error = {
+                _isLoading.tryEmit(false)
+            }
+        )
+    }
+
+    // загрузка данных порциями
+    private fun loadPagedNews() {
         newsFlow = interactor.getPagedNews().cachedIn(viewModelScope)
     }
 
+
+    // загрузка сразу всех данных
     private fun loadData() {
         _isLoading.tryEmit(true)
 
         launchOrError(
             action = {
-                //   interactor.clearLocalSource()
-                //   interactor.fillLocalDataSourceFromRemote()
                 val data = interactor.getNewsFromLocalSource()
                 _resultRecycler.tryEmit(data)
                 _isLoading.tryEmit(false)

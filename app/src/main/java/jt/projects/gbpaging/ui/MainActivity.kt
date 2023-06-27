@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.AndroidInjection
 import jt.projects.gbpaging.databinding.ActivityMainBinding
@@ -34,13 +35,13 @@ class MainActivity : AppCompatActivity() {
         initUi()
         observeViewModelData()
         observeLoadState()
-    //    observeLoadingVisible()
+        observeLoadingVisible()
     }
 
     private fun observeLoadState() {
         lifecycleScope.launch {
             mainAdapter.loadStateFlow.debounce(200).collectLatest {
-             //   mainLoadStateHolder
+                binding.progressCircular.isVisible = it.append is LoadState.Loading
             }
         }
     }

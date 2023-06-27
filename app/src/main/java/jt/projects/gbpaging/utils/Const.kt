@@ -7,6 +7,9 @@ const val BASE_URL = "https://www.reddit.com/"
  */
 const val PAGE_SIZE = 10
 
+// количество новостей в локальной базе данных
+const val DB_NEWS_MAX_COUNT = 150
+
 /**
  * LOGS
  */

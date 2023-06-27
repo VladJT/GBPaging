@@ -22,6 +22,7 @@ class MainPagingAdapter : PagingDataAdapter<News, MainPagingAdapter.Holder>(News
             tvTitle.text = data.title
             tvAwards.text = data.stars.toString()
             tvComments.text = data.comments.toString()
+            tvId.text = data.id.toString()
         }
     }
 
