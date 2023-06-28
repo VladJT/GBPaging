@@ -42,8 +42,10 @@ class DefaultLoadStateAdapter(private val tryAgainAction: TryAgainAction) :
                 if (swipeRefreshLayout != null) {
                     swipeRefreshLayout.isRefreshing = loadState is LoadState.Loading
                     progressBar.isVisible = false
+                    tvLoading.isVisible = false
                 } else {
                     progressBar.isVisible = loadState is LoadState.Loading
+                    tvLoading.isVisible = loadState is LoadState.Loading
                 }
             }
 

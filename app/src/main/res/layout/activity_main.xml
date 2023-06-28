@@ -37,7 +37,7 @@
         android:minWidth="50dp"
         android:visibility="visible"
         app:indicatorColor="#9B9FB8"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:trackColor="#0277BD"
         app:trackThickness="8dp" />

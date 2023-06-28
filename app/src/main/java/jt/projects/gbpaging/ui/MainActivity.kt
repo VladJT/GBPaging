@@ -39,12 +39,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-
-        val adapterWithLoadState = mainAdapter.withLoadStateFooter(footerAdapter)
-
         with(binding.rvNews) {
             layoutManager = LinearLayoutManager(context)
-            adapter = adapterWithLoadState
+            adapter = mainAdapter.withLoadStateFooter(footerAdapter)
         }
     }
 
